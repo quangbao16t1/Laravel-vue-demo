@@ -1,0 +1,32 @@
+version: '3'
+volumes:
+  db-store:
+  php-fpm-socket:
+
+services:
+  php:
+    build: ./docker/php
+    volumes:
+      - php-fpm-socket:/var/run/php-fpm
+      - ./:/work/backend
+      - ./docker/php/bash/.bash_history:/root/.bash_history
+      - ./docker/php/bash/psysh:/root/.config/psysh
+
+  web:
+    build: ./docker/nginx
+    ports:
+      - 8080:8080
+    volumes:
+      - php-fpm-socket:/var/run/php-fpm
+      - ./:/work/backend
+
+  mysql:
+    build: ./docker/mysql
+    environment:
+      - TZ=UTC
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=laravel_local
+    volumes:
+      - db-store:/var/lib/mysql
+    ports:
+      - 5306:3306
