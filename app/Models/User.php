@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,6 +28,7 @@ class User extends Authenticatable
     'address',
     'phone_number',
     'role_id',
+    'company_id',
     'api_token'
   ];
 
@@ -52,5 +54,25 @@ class User extends Authenticatable
 
   public function role() : BelongsTo {
     return $this -> belongsTo(Role::class, 'role_id');
+  }
+
+  /**
+   * Get all of the orders for the User
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function orders(): HasMany
+  {
+      return $this->hasMany(Order::class);
+  }
+
+  /**
+   * Get the company that owns the User
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function company(): BelongsTo
+  {
+      return $this->belongsTo(Company::class);
   }
 }

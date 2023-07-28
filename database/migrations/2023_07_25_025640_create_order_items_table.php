@@ -6,33 +6,33 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOrderItemsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('order_items', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('order_id');
-            $table->unsignedBigInteger('product_id');
-            $table->decimal('price');
-            $table->integer('quantity');
-            $table->timestamps();
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    Schema::create('order_items', function (Blueprint $table) {
+      $table->bigIncrements('id');
+      $table->unsignedBigInteger('order_id');
+      $table->unsignedBigInteger('product_id');
+      $table->decimal('price');
+      $table->integer('quantity');
+      $table->timestamps();
 
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('CASCADE');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
-        });
-    }
+      $table->foreign('order_id')->references('id')->on('orders')->onDelete('CASCADE');
+      $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('order_items');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('order_items');
+  }
 }

@@ -23,10 +23,12 @@ class CreateUsersTable extends Migration
       $table->string('address')->nullable();
       $table->string('phone_number')->nullable();
       $table->unsignedInteger('role_id');
+      $table->unsignedBigInteger('company_id')->nullable();
       $table->string('api_token', 80)->unique()->nullable()->default(null);
       $table->timestamps();
 
       $table->foreign('role_id')->references('id')->on('roles')->onDelete('CASCADE');
+      $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
     });
   }
 
