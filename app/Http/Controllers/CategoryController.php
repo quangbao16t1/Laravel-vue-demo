@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class CompanyController extends Controller
+class CategoryController extends Controller
 {
   public function index(Request $request): Response
   {
-    return Inertia::render('Company/Index', [
+    return Inertia::render('Category/Index', [
       'status' => session('status'),
     ]);
   }

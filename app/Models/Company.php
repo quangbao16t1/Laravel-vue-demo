@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class Company extends Model
 {
@@ -22,7 +23,17 @@ class Company extends Model
     'type',
     'address',
     'phone_number',
+    'created_at',
   ];
+
+  protected $appends = [
+    'created_at_fe',
+  ];
+
+  public function getCreatedAtFeAttribute()
+  {
+      return $this->created_at->toDateString();
+  }
 
   /**
    * Get all of the categories for the Company

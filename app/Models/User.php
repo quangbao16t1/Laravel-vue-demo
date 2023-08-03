@@ -32,6 +32,10 @@ class User extends Authenticatable
     'api_token'
   ];
 
+  protected $appends =
+  [
+    'full_name'
+  ];
   /**
    * The attributes that should be hidden for serialization.
    *
@@ -52,8 +56,9 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
   ];
 
-  public function role() : BelongsTo {
-    return $this -> belongsTo(Role::class, 'role_id');
+  public function role(): BelongsTo
+  {
+    return $this->belongsTo(Role::class, 'role_id');
   }
 
   /**
@@ -63,7 +68,7 @@ class User extends Authenticatable
    */
   public function orders(): HasMany
   {
-      return $this->hasMany(Order::class);
+    return $this->hasMany(Order::class);
   }
 
   /**
@@ -73,6 +78,16 @@ class User extends Authenticatable
    */
   public function company(): BelongsTo
   {
-      return $this->belongsTo(Company::class);
+    return $this->belongsTo(Company::class);
+  }
+
+  /**
+   * Get the user's full name.
+   *
+   * @return string
+   */
+  public function getFullNameAttribute()
+  {
+    return "{$this->first_name} {$this->last_name}";
   }
 }
