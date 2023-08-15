@@ -44,18 +44,26 @@ const rules = ref({
 
 onMounted(async () => {
   //   getAllCompanies();
-  const res = await axios.get('/api/categories/all');
+  const res = await axios.get('/categories/all');
   categories.value = res.data;
 });
 
 async function getAllCategories() {
-  const res = await axios.get('/api/categories/all');
+  const res = await axios.get('/categories/all');
   categories.value = res.data;
 }
 
+const createNew = async () => {
+  dialog.value = true;
+  formType.value = "new";
+  form.name = null;
+  form.description = null;
+  form.company_id = null;
+};
+
 const edit = async (item) => {
   formType.value = 'edit';
-  const categoryDetails = await axios.get(`/api/categories/show/${item.id}`);
+  const categoryDetails = await axios.get(`/categories/show/${item.id}`);
   categorySelected.value = categoryDetails.data;
   form.name = categoryDetails.data.name;
   form.description = categoryDetails.data.description;
@@ -64,7 +72,7 @@ const edit = async (item) => {
 };
 
 const save = async () => {
-  if (formType == 'new') {
+  if (formType.value == 'new') {
     storeCategory();
   } else {
     updateCategory()
@@ -72,14 +80,19 @@ const save = async () => {
 }
 
 const storeCategory = async () => {
-  const saveCategory = await form.post("/api/categories/store");
+  const saveCategory = await axios.post("/categories/store", {
+    'name': form.name,
+    'description': form.description,
+    'company_id': form.company_id
+  });
 
   if (!saveCategory) {
-    ref.error.snackbar = true;
-    ref.error.text = "Error。";
+    // ref.error.snackbar = true;
+    // ref.error.text = "Error。";
+    overlayDialog.value = false;
+    loading.value = false;
   };
 
-  ref.success.snackbar = true;
   getAllCategories();
   dialog.value = false;
 };
@@ -87,7 +100,7 @@ const storeCategory = async () => {
 const updateCategory = async () => {
   overlayDialog.value = true;
   loading.value = true;
-  const categoryUpdate = await axios.post(`/api/categories/update/${categorySelected.value.id}`, {
+  const categoryUpdate = await axios.post(`/categories/update/${categorySelected.value.id}`, {
     'name': form.name,
     'description': form.description,
     'company_id': form.company_id
@@ -115,7 +128,7 @@ const updateCategory = async () => {
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
           <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
             <div class="mb-2">
-              <v-btn depressed color="warning" @click="edit(item.selectable)">Create new</v-btn>
+              <v-btn depressed color="info" @click="createNew()">Create new</v-btn>
             </div>
             <v-data-table v-model:items-per-page="itemsPerPage" :headers="headers" :items="categories"
               class="elevation-1">

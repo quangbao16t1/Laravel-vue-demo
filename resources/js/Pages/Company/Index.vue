@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { onMounted, ref, watch } from 'vue';
 // import { Table } from "@protonemedia/inertiajs-tables-laravel-query-builder";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -7,10 +7,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 // import DataTablesLib from "datatables.net";
 import { VDataTable } from 'vuetify/labs/components';
 import { VDialog } from 'vuetify/lib/components/index.mjs';
-
+import axios from 'axios';
 
 // DataTable.use(DataTablesLib);
 
+const user = usePage().props.auth.user;
 const companies = ref([]);
 const headers = ref([
   { title: 'Name', key: 'name' },
@@ -41,9 +42,11 @@ const rules = ref({
   },
 });
 
+
+
 onMounted(async () => {
   //   getAllCompanies();
-  const res = await axios.get('/api/companies/all');
+  const res = await axios.get('http://127.0.0.1:8888/api/companies/all');
   companies.value = res.data;
   console.log(111, companies.value)
 });

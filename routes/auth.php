@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -36,6 +38,22 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+  // Route::prefix('/companies')->group((function () {
+  //   Route::get('/all', [CompanyController::class, 'getAll']);
+  //   Route::post('/store', [CompanyController::class, 'store']);
+  //   Route::get('/show/{id}', [CompanyController::class, 'show']);
+  // }));
+
+  // Route::prefix('/categories')->group((function () {
+  //   Route::get('/all', [CategoryController::class, 'getAll']);
+  //   Route::post('/store', [CategoryController::class, 'store']);
+  //   Route::get('/show/{id}', [CategoryController::class, 'show']);
+  //   Route::post('/update/{id}', [CategoryController::class, 'update']);
+  //   // Route::get('/all', 'Api\CategoryController@getAll');
+  //   // Route::post('/store', 'Api\CategoryController@store');
+  //   // Route::get('/{id}', 'Api\CategoryController@show');
+  // }));
+
   Route::get('verify-email', EmailVerificationPromptController::class)
     ->name('verification.notice');
 

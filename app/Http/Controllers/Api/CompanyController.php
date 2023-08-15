@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -55,6 +58,7 @@ class CompanyController extends Controller
 
   public function getAll()
   {
+    $user =  Auth::user();
     $company = Company::all()->map(function ($item) {
       return
         [
@@ -65,7 +69,7 @@ class CompanyController extends Controller
           'address' => $item->address,
           'phone_number' => $item->phone_number,
           'created_at' => $item->created_at->toDateString(),
-          'created_at_fe' => $item->created_at_fe
+          'created_at_fe' => $item->created_at_fe,
         ];
     });
 

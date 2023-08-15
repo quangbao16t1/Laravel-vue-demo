@@ -66,9 +66,7 @@ class CategoryController extends Controller
         'created_at' => $item -> created_at -> toDateString()
       ];
     });
-    // $category = [
-    //   'id' => data_get($category, 'id')
-    // ];
+
     return response()->json($category);
   }
 
