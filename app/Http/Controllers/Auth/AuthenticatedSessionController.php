@@ -47,6 +47,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $user = User::where('email', Auth::user()->email)->first();
+        $user->update(['api_token' => null]);
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

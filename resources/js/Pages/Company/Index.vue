@@ -11,7 +11,7 @@ import axios from 'axios';
 
 // DataTable.use(DataTablesLib);
 
-const user = usePage().props.auth.user;
+const token = usePage().props.auth.user.api_token;
 const companies = ref([]);
 const headers = ref([
   { title: 'Name', key: 'name' },
@@ -46,9 +46,8 @@ const rules = ref({
 
 onMounted(async () => {
   //   getAllCompanies();
-  const res = await axios.get('http://127.0.0.1:8888/api/companies/all');
+  const res = await axios.get('/api/companies/all', { headers: {"Authorization" : `Bearer ${token}`} });
   companies.value = res.data;
-  console.log(111, companies.value)
 });
 
 // async function getAllCompanies() {

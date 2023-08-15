@@ -44,12 +44,12 @@ const rules = ref({
 
 onMounted(async () => {
   //   getAllCompanies();
-  const res = await axios.get('/categories/all');
+  const res = await axios.get('/api/categories/all');
   categories.value = res.data;
 });
 
 async function getAllCategories() {
-  const res = await axios.get('/categories/all');
+  const res = await axios.get('/api/categories/all');
   categories.value = res.data;
 }
 
@@ -63,7 +63,7 @@ const createNew = async () => {
 
 const edit = async (item) => {
   formType.value = 'edit';
-  const categoryDetails = await axios.get(`/categories/show/${item.id}`);
+  const categoryDetails = await axios.get(`/api/categories/show/${item.id}`);
   categorySelected.value = categoryDetails.data;
   form.name = categoryDetails.data.name;
   form.description = categoryDetails.data.description;
@@ -80,7 +80,7 @@ const save = async () => {
 }
 
 const storeCategory = async () => {
-  const saveCategory = await axios.post("/categories/store", {
+  const saveCategory = await axios.post("/api/categories/store", {
     'name': form.name,
     'description': form.description,
     'company_id': form.company_id
@@ -100,7 +100,7 @@ const storeCategory = async () => {
 const updateCategory = async () => {
   overlayDialog.value = true;
   loading.value = true;
-  const categoryUpdate = await axios.post(`/categories/update/${categorySelected.value.id}`, {
+  const categoryUpdate = await axios.post(`/api/categories/update/${categorySelected.value.id}`, {
     'name': form.name,
     'description': form.description,
     'company_id': form.company_id
